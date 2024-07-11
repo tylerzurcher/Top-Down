@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-
+@onready var animator = $AnimatedSprite2D
 const SPEED = 100.0
 const JUMP_VELOCITY = -400.0
 
@@ -33,9 +33,32 @@ func _physics_process(delta):
 	var direction = Vector2 (x_direction, y_direction)
 	
 	print(direction)
-	# Play animations
-	if direction.y > 0:
-		
+	### Need to figure out how to make run animation play only when there is input
+	# Play running animations
+	if y_direction > 0:
+		animator.play("run_down")
+	elif y_direction < 0:
+		animator.play("run_up")
+	elif x_direction > 0:
+		animator.flip_h = false
+		animator.play("run_side")
+	elif x_direction < 0:
+		animator.flip_h = true
+		animator.play("run_side")
+	
+	### Need to figure out how to make idle animation play when there is no input
+	# Play idle animations
+	if x_direction or y_direction == 0:
+		if direction.y > 0:
+			animator.play("idle_down")
+		elif direction.y < 0:
+			animator.play("idle_up")
+		elif direction.x > 0:
+			animator.flip_h = false
+			animator.play("idle_side")
+		elif direction.x < 0:
+			animator.flip_h = true
+			animator.play("idle_side")
 		
 
 	move_and_slide()
