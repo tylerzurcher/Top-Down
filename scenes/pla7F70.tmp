@@ -1,6 +1,6 @@
 [gd_scene load_steps=41 format=3 uid="uid://cvbbcckiteo6"]
 
-[ext_resource type="Script" path="res://scrips/player.gd" id="1_dm0l2"]
+[ext_resource type="Script" path="res://player.gd" id="1_dm0l2"]
 [ext_resource type="Texture2D" uid="uid://bxxq135l1c4i" path="res://assets/sprites/characters/player.png" id="1_uag0v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hopjv"]
@@ -238,7 +238,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_byels")
 }],
 "loop": true,
-"name": &"move_down",
+"name": &"run_down",
 "speed": 10.0
 }, {
 "frames": [{
@@ -261,7 +261,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_dg8l2")
 }],
 "loop": true,
-"name": &"move_side",
+"name": &"run_side",
 "speed": 10.0
 }, {
 "frames": [{
@@ -284,7 +284,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_12nu2")
 }],
 "loop": true,
-"name": &"move_up",
+"name": &"run_up",
 "speed": 10.0
 }]
 
@@ -298,9 +298,9 @@ script = ExtResource("1_dm0l2")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -17)
 sprite_frames = SubResource("SpriteFrames_imjov")
-animation = &"idle_down"
+animation = &"run_up"
 autoplay = "idle_down"
-frame_progress = 0.372837
+frame_progress = 0.43035
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, -7)
