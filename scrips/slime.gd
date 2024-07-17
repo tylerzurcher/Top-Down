@@ -11,9 +11,7 @@ func _physics_process(delta):
 	
 	
 func movement(speed):
-	#var direction = move_toward(1, player.position, speed)
-	#print(direction)
-	#velocity = direction
+	print(player.get_velocity())
 	move_and_slide()
 	
 func animate():
