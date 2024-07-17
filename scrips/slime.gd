@@ -14,24 +14,25 @@ func _physics_process(delta):
 func movement(speed, delta):
 	#position += (player.position - position).normalized() * speed * delta
 	velocity = (player.get_global_position() - position).normalized() * speed
-	print(velocity.normalized(), facing)
+	print(velocity.normalized().angle(), facing)
+	animate()
 	move_and_slide()
-	animate(velocity)
 	
-func animate(velocity):
+func animate():
+	
+	#velocity = velocity.normalized()
 	### determine initial direction for the animation
-	# need to find a way to figure out what direction it's mostly going in
-	# I think deviation will play a large role in this
-	if velocity.x > 0:
+	# check to see which direction velocity is mostly towards
+	if abs(velocity.angle_to(Vector2.RIGHT)) < PI/4:
 		animation_dir = Vector2 (1,0)
 		facing = "right"
-	if velocity.x < 0:
+	if abs(velocity.angle_to(Vector2.LEFT)) < PI/4:
 		animation_dir = Vector2 (-1,0)
 		facing = "left"
-	if velocity.y < 0:
+	if abs(velocity.angle_to(Vector2.UP)) < PI/4:
 		animation_dir = Vector2 (0,-1)
 		facing = "up"
-	if velocity.y > 0:
+	if abs(velocity.angle_to(Vector2.DOWN)) < PI/4:
 		animation_dir = Vector2 (0,1)
 		facing = "down"
 		

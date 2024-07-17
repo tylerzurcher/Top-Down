@@ -14,31 +14,31 @@ func movement(speed):
 	# when two directions are pressed (0.707107, 0.707107)
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	velocity = input_direction * speed
-	animate(input_direction)
+	animate()
 	move_and_slide()
 	
-func animate(input_direction):
+func animate():
 	### determine initial direction for the animation
-	# Just realized this won't work if initial input is not cardinal
-	if input_direction == Vector2 (1,0):
-		animation_dir = Vector2 (1,0)
-		facing = "right"
-	if input_direction == Vector2 (-1,0):
-		animation_dir = Vector2 (-1,0)
-		facing = "left"
-	if input_direction == Vector2 (0,-1):
-		animation_dir = Vector2 (0,-1)
-		facing = "up"
-	if input_direction == Vector2 (0,1):
-		animation_dir = Vector2 (0,1)
-		facing = "down"
-		
-		
+	# the PI/4 check is to see which the dominate travel direction is
+	if velocity != Vector2.ZERO:
+		if abs(velocity.angle_to(Vector2.RIGHT)) < PI/4:
+			animation_dir = Vector2 (1,0)
+			facing = "right"
+		if abs(velocity.angle_to(Vector2.LEFT)) < PI/4:
+			animation_dir = Vector2 (-1,0)
+			facing = "left"
+		if abs(velocity.angle_to(Vector2.UP)) < PI/4:
+			animation_dir = Vector2 (0,-1)
+			facing = "up"
+		if abs(velocity.angle_to(Vector2.DOWN)) < PI/4:
+			animation_dir = Vector2 (0,1)
+			facing = "down"
+
 	### Determine which animation to play while moving
 	# check if direction is changed (up to right) or just modified (up and right)
 	# deviation is used to find the degrees between movement direction and initial direction to dictate the animation
-	var deviation = abs(input_direction.angle_to(animation_dir))
-	if deviation < PI/3 and input_direction != Vector2.ZERO: # 50 allows the initial direction animation to play on diagonals
+	var deviation = abs(velocity.angle_to(animation_dir))
+	if deviation < PI/3 and velocity != Vector2.ZERO: # 50 allows the initial direction animation to play on diagonals
 		if facing == "right":
 			animator.flip_h = false
 			animator.play("move_side")
@@ -49,7 +49,7 @@ func animate(input_direction):
 			animator.play("move_" + facing)
 			
 	#play idle animations in correct direction
-	if input_direction == Vector2.ZERO:
+	if velocity == Vector2.ZERO:
 		if facing == "right":
 			animator.flip_h = false
 			animator.play("idle_side")
