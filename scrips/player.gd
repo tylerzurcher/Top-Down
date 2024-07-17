@@ -19,6 +19,7 @@ func movement(speed):
 	
 func animate(input_direction):
 	### determine initial direction for the animation
+	# Just realized this won't work if initial input is not cardinal
 	if input_direction == Vector2 (1,0):
 		animation_dir = Vector2 (1,0)
 		facing = "right"
@@ -32,10 +33,12 @@ func animate(input_direction):
 		animation_dir = Vector2 (0,1)
 		facing = "down"
 		
+		
+	### Determine which animation to play while moving
 	# check if direction is changed (up to right) or just modified (up and right)
 	# deviation is used to find the degrees between movement direction and initial direction to dictate the animation
-	var deviation = rad_to_deg(abs(input_direction.angle_to(animation_dir)))
-	if deviation < 50 and input_direction != Vector2.ZERO: # 50 allows the initial direction animation to play on diagonals
+	var deviation = abs(input_direction.angle_to(animation_dir))
+	if deviation < PI/3 and input_direction != Vector2.ZERO: # 50 allows the initial direction animation to play on diagonals
 		if facing == "right":
 			animator.flip_h = false
 			animator.play("move_side")
