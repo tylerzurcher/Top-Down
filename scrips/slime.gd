@@ -2,20 +2,23 @@ extends CharacterBody2D
 
 @onready var animator = $AnimatedSprite2D
 @onready var player = %Player
-const speed = 30.0
+@onready var incoming = $"Detection Radius"
+const speed = 50.0
 var state = "idle"
 var facing = ""
 var animation_dir = Vector2.ZERO
+var pursuit = false
 
 func _physics_process(delta):
-	movement(speed, delta)
-	
+	if pursuit == true and animator.frame in [2,3,4]:
+		movement(speed, delta)
+	print(animator.frame, animator.animation_looped)
+	animate()
 	
 func movement(speed, delta):
 	#position += (player.position - position).normalized() * speed * delta
 	velocity = (player.get_global_position() - position).normalized() * speed
-	print(velocity.normalized().angle(), facing)
-	animate()
+	#print(velocity.normalized().angle(), facing)
 	move_and_slide()
 	
 func animate():
@@ -61,3 +64,10 @@ func animate():
 			animator.play("idle_side")
 		elif facing == "up" or facing == "down":
 			animator.play("idle_" + facing)
+
+
+
+func _on_detection_radius_body_entered(body):
+	print('Player Found', pursuit)
+	pursuit = true
+	pass # Replace with function body.
